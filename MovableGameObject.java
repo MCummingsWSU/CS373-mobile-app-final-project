@@ -27,16 +27,16 @@ public class MovableGameObject
      */
     public MovableGameObject(Color color, Point location, String name, double width, double height, double speed)
     {
+        this.gameObjectName = name;
         this.gameObjectColor = color;
         this.gameObjectLocation = location;
+        this.gameObjectWidth = width;
+        this.gameObjectHeight = height;
+        this.gameObjectSpeed = speed;
         this.gameObjectRightXCoordinate = this.gameObjectLocation.getX() + this.gameObjectWidth / 2;
         this.gameObjectLeftXCoordinate = this.gameObjectLocation.getX() - this.gameObjectWidth / 2;
         this.gameObjectTopYCoordinate = this.gameObjectLocation.getY() + this.gameObjectHeight / 2;
         this.gameObjectBottomYCoordinate = this.gameObjectLocation.getY() - this.gameObjectHeight / 2;
-        this.gameObjectName = name;
-        this.gameObjectWidth = width;
-        this.gameObjectHeight = height;
-        this.gameObjectSpeed = speed;
     }
     
     /**
