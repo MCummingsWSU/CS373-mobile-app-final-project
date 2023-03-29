@@ -136,7 +136,7 @@ public class MovableGameObject
      */
     public double getMovableGameObjectRightXCoordinate()
     {
-        return this.gameObjectLocation.getX() + this.gameObjectWidth / 2;
+        return this.gameObjectRightXCoordinate;
     }
     
     /**
@@ -177,7 +177,7 @@ public class MovableGameObject
      */
     public double getMovableGameObjectLeftXCoordinate()
     {
-        return this.gameObjectLocation.getX() - this.gameObjectWidth / 2;
+        return this.gameObjectLeftXCoordinate;
     }
     
     /**
