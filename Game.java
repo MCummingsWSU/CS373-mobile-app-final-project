@@ -6,6 +6,9 @@ import java.util.Random;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 /**
  * A class representing an instance of a mobile game
  *
@@ -15,11 +18,13 @@ import java.awt.event.KeyListener;
 public class Game
 {
     private boolean gameOver;
+    private JPanel gameGraphics;
     private KeyListener gameInput;
-    private String gameTitle;
+    public static int gameWidth = 480;
+    public static int gameHeight = 854;//9:16 480p aspect ratio
+    public String gameTitle = "WorkingTitle";
     private boolean[] keyboard;
     private ArrayList<GameObject> gameWorldObjects;
-    private GameObject gamePlayerCharacter;
     private long gamePointsScore;
     private long gamePointsHighScore = 0;
     //private int gameTimeCounter; Used for adjusting difficulty, can come back to this later
@@ -33,7 +38,7 @@ public class Game
     {
         gameOver = false;
         keyboard = new boolean[KeyEvent.KEY_LAST]; 
-        gamePlayerCharacter = new MovableGameObject(Color.BLACK, 0, 16, "Player", 16, 16, 16); //Values subject to change once I see how the game looks on a phone screen
+        Player gamePlayerCharacter = new Player(); //Values subject to change once I see how the game looks on a phone screen
         gamePointsScore = 0;
         gameRandomSeed = new Random((long)(Math.random() * Long.MAX_VALUE));
         gameWorldObjects = new ArrayList<>();

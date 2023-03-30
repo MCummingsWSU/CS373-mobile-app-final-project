@@ -3,6 +3,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 
 /**
@@ -21,6 +23,23 @@ public class MovableGameObject implements GameObject
     private double gameObjectBottomYCoordinate = this.gameObjectLocation.getY() - this.gameObjectHeight / 2;
     private String gameObjectName;
     private Color gameObjectColor;
+    
+    /**
+     * 
+     */
+    public MovableGameObject()
+    {
+        this.gameObjectName = "ObjectName";
+        this.gameObjectColor = Color.RED;
+        this.gameObjectLocation.setLocation(0,0);
+        this.gameObjectWidth = 1;
+        this.gameObjectHeight = 1;
+        this.gameObjectSpeed = 0;
+        this.gameObjectRightXCoordinate = this.gameObjectLocation.getX() + this.gameObjectWidth / 2;
+        this.gameObjectLeftXCoordinate = this.gameObjectLocation.getX() - this.gameObjectWidth / 2;
+        this.gameObjectTopYCoordinate = this.gameObjectLocation.getY() + this.gameObjectHeight / 2;
+        this.gameObjectBottomYCoordinate = this.gameObjectLocation.getY() - this.gameObjectHeight / 2;
+    }
 
     /**
      * Constructor for objects of class MovableGameObject

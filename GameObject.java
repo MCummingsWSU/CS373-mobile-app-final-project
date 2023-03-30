@@ -3,6 +3,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  * An interface containing methods for GameObjects. GameObject will be implemented in a MovableGameObject class, which will in turn be used to create subclasses for the player character and the obstacles in the game
