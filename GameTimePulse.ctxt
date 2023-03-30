@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=GameTimePulse
+comment0.text=\r\n\ An\ interface\ detailing\ the\ actions\ the\ game\ should\ take\ depending\ on\ input\ from\ the\ player\ and\ in-game\ timers\r\n\r\n\ @author\ Michael\ Cummings\r\n\ @version\ 3.30.29\r\n
+comment1.params=
+comment1.target=boolean\ gameIsOver()
+comment1.text=\r\n\ Method\ to\ detect\ whether\ the\ game\ has\ ended\ (player\ has\ collided\ with\ an\ object)\r\n\r\n\ @return\ \ \ \ gameOver\r\n
+comment2.params=gameInput
+comment2.target=void\ gamePlayerInput(java.awt.event.KeyListener)
+comment2.text=\r\n\ Method\ to\ detect\ whether\ the\ player\ has\ made\ any\ inputs\r\n
+comment3.params=
+comment3.target=void\ gameItemPlacement()
+comment3.text=\r\n\ Method\ to\ create\ a\ new\ list\ of\ items\ currently\ on\ screen,\ then\ check\ if\ any\ of\ those\ items\ are\ off\ the\ screen,\ then\ calls\ GameObject\ methods\ to\ instantiate\ new\ obstacles\r\n
+comment4.params=
+comment4.target=void\ gameObjectCollisionDetection()
+comment4.text=\r\n\ Method\ to\ check\ if\ the\ player\ has\ collided\ with\ any\ obstacles\ (not\ checking\ if\ obstacles\ collide\ with\ each\ other\ in\ this\ game)\r\n
+comment5.params=
+comment5.target=void\ gamePlayerIsOnScreen()
+comment5.text=\r\n\ Method\ to\ check\ if\ the\ player\ is\ on\ screen\r\n
+comment6.params=
+comment6.target=void\ gamePointCounter()
+comment6.text=\r\n\ Method\ to\ increment\ the\ game's\ point\ counter,\ record\ high\ score\r\n
+numComments=7
