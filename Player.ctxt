@@ -1,7 +1,7 @@
 #BlueJ class context
 comment0.target=Player
 comment0.text=\r\n\ A\ class\ representing\ the\ character\ the\ player\ controls\ in\ the\ game\r\n\r\n\ @author\ Michael\ Cummings\r\n\ @version\ 3.30.23\r\n
-comment1.params=
-comment1.target=Player()
+comment1.params=x\ y
+comment1.target=Player(int,\ int)
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Player\r\n
 numComments=2

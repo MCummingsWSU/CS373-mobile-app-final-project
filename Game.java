@@ -32,13 +32,21 @@ public class Game
     private Random gameRandomSeed; //Will hold a random value generated at initialization that will be used to decide whether the game creates an obstacle on the play screen, also will be used to determine object dimensions
     
     /**
+     * Method to add an Obstacle gameObject to the ArrayList gameWorldObjects
+     */
+    public void createGameObjectObstacle()
+    {
+        gameWorldObjects.add(new Obstacle((int)(gameRandomSeed.nextDouble() * (gameWidth + 32)) - 16, (int)(gameRandomSeed.nextDouble() * (-gameHeight + 32))));
+    }
+    
+    /**
      * Method to prepare the initial conditions to run the game
      */
-    public void initialize()
+    public void gameInitialize()
     {
         gameOver = false;
         keyboard = new boolean[KeyEvent.KEY_LAST]; 
-        Player gamePlayerCharacter = new Player(); //Values subject to change once I see how the game looks on a phone screen
+        Player gamePlayerCharacter = new Player(gameWidth / 2, gameHeight - 24); //Values subject to change once I see how the game looks on a phone screen
         gamePointsScore = 0;
         gameRandomSeed = new Random((long)(Math.random() * Long.MAX_VALUE));
         gameWorldObjects = new ArrayList<>();
