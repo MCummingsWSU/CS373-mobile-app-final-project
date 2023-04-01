@@ -17,13 +17,13 @@ public class Player extends MovableGameObject
     /**
      * Constructor for objects of class Player
      */
-    public Player()
+    public Player(int x, int y)
     {
         this.setGameObjectName("Player");
         this.setGameObjectColor(Color.BLACK);
         this.setGameObjectWidth(16);
         this.setGameObjectHeight(16);
-        this.setGameObjectLocation(Game.gameWidth / 2, Game.gameHeight - 16);
+        this.setGameObjectLocation(x, y);
         this.setMovableGameObjectSpeed(4);
     }
 }
