@@ -39,7 +39,6 @@ public class Game
     {
         return new Obstacle((int)(gameRandomSeed.nextDouble() * (gameWidth + 32)) - 16, (int)(gameRandomSeed.nextDouble() * (-gameHeight + 32)));
     }
-    
     /**
      * Method to prepare the initial conditions to run the game
      */
