@@ -19,8 +19,8 @@ public class MovableGameObject implements GameObject
     private double gameObjectWidth, gameObjectHeight, gameObjectSpeed;
     private double gameObjectRightXCoordinate = this.gameObjectLocation.getX() + this.gameObjectWidth / 2;
     private double gameObjectLeftXCoordinate = this.gameObjectLocation.getX() - this.gameObjectWidth / 2;
-    private double gameObjectTopYCoordinate = this.gameObjectLocation.getY() + this.gameObjectHeight / 2;
-    private double gameObjectBottomYCoordinate = this.gameObjectLocation.getY() - this.gameObjectHeight / 2;
+    private double gameObjectTopYCoordinate = this.gameObjectLocation.getY() - this.gameObjectHeight / 2;
+    private double gameObjectBottomYCoordinate = this.gameObjectLocation.getY() + this.gameObjectHeight / 2;
     private String gameObjectName;
     private Color gameObjectColor;
     
@@ -37,8 +37,8 @@ public class MovableGameObject implements GameObject
         this.gameObjectSpeed = 0;
         this.gameObjectRightXCoordinate = this.gameObjectLocation.getX() + this.gameObjectWidth / 2;
         this.gameObjectLeftXCoordinate = this.gameObjectLocation.getX() - this.gameObjectWidth / 2;
-        this.gameObjectTopYCoordinate = this.gameObjectLocation.getY() + this.gameObjectHeight / 2;
-        this.gameObjectBottomYCoordinate = this.gameObjectLocation.getY() - this.gameObjectHeight / 2;
+        this.gameObjectTopYCoordinate = this.gameObjectLocation.getY() - this.gameObjectHeight / 2;
+        this.gameObjectBottomYCoordinate = this.gameObjectLocation.getY() + this.gameObjectHeight / 2;
     }
 
     /**
@@ -54,8 +54,8 @@ public class MovableGameObject implements GameObject
         this.gameObjectSpeed = speed;
         this.gameObjectRightXCoordinate = this.gameObjectLocation.getX() + this.gameObjectWidth / 2;
         this.gameObjectLeftXCoordinate = this.gameObjectLocation.getX() - this.gameObjectWidth / 2;
-        this.gameObjectTopYCoordinate = this.gameObjectLocation.getY() + this.gameObjectHeight / 2;
-        this.gameObjectBottomYCoordinate = this.gameObjectLocation.getY() - this.gameObjectHeight / 2;
+        this.gameObjectTopYCoordinate = this.gameObjectLocation.getY() - this.gameObjectHeight / 2;
+        this.gameObjectBottomYCoordinate = this.gameObjectLocation.getY() + this.gameObjectHeight / 2;
     }
     
     /**
@@ -206,7 +206,7 @@ public class MovableGameObject implements GameObject
      */
     public void setGameObjectTopYCoordinate(Point location, double height)
     {
-        this.gameObjectTopYCoordinate = location.getY() + height / 2;
+        this.gameObjectTopYCoordinate = location.getY() - height / 2;
     }
     
     /**
@@ -216,7 +216,7 @@ public class MovableGameObject implements GameObject
      */
     public void setGameObjectTopYCoordinate(int y, double height)
     {
-        this.gameObjectTopYCoordinate = y + height / 2;
+        this.gameObjectTopYCoordinate = y - height / 2;
     }
     
     /**
@@ -226,7 +226,7 @@ public class MovableGameObject implements GameObject
      */
     public void setGameObjectTopYCoordinate(double y, double height)
     {
-        this.gameObjectTopYCoordinate = y + height / 2;
+        this.gameObjectTopYCoordinate = y - height / 2;
     }
     
     /**
@@ -246,7 +246,7 @@ public class MovableGameObject implements GameObject
      */
     public void setGameObjectBottomYCoordinate(Point location, double height)
     {
-        this.gameObjectBottomYCoordinate = location.getY() - height / 2;
+        this.gameObjectBottomYCoordinate = location.getY() + height / 2;
     }
     
     /**
@@ -256,7 +256,7 @@ public class MovableGameObject implements GameObject
      */
     public void setGameObjectBottomYCoordinate(int y, double height)
     {
-        this.gameObjectBottomYCoordinate = y - height / 2;
+        this.gameObjectBottomYCoordinate = y + height / 2;
     }
     
     /**
@@ -266,7 +266,7 @@ public class MovableGameObject implements GameObject
      */
     public void setGameObjectBottomYCoordinate(double y, double height)
     {
-        this.gameObjectBottomYCoordinate = y - height / 2;
+        this.gameObjectBottomYCoordinate = y + height / 2;
     }
     
     /**
@@ -357,5 +357,15 @@ public class MovableGameObject implements GameObject
     public double getMovableGameObjectSpeed()
     {
         return this.gameObjectSpeed;
+    }
+    
+    /**
+     * Method to translate a MovableGameObject along the x or y axis
+     * 
+     * @param dx, dy
+     */
+    public void translateMovableGameObject(int dx, int dy)
+    {
+        this.gameObjectLocation.translate(dx, dy);
     }
 }
