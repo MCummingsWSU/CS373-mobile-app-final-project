@@ -31,7 +31,7 @@ public class Game extends JFrame
     private long gamePointsScore;
     private long gamePointsHighScore = 0;
     //private int gameTimeCounter; Used for adjusting difficulty, can come back to this later
-    private long gameTimeDelay; //Need this for graphics rendering code
+    private long gameFrameDelay;
     private Random gameRandomSeed; //Will hold a random value generated at initialization that will be used to decide the coordinates to place Obstacles
     
     /**
@@ -62,7 +62,7 @@ public class Game extends JFrame
         keyboard = new boolean[KeyEvent.KEY_LAST]; 
         gamePlayerCharacter = createMovableGameObjectPlayer(); //Values subject to change once I see how the game looks on a phone screen
         gamePointsScore = 0;
-        gameTimeDelay = 10;
+        gameFrameDelay = 10;
         gameRandomSeed = new Random();
         gameWorldObjects = new ArrayList<>();
         
@@ -170,7 +170,7 @@ public class Game extends JFrame
     }
     
     /**
-     * TODO: Setup method
+     * TODO: Write comments!
      */
     public void gameGraphicsSetup()
     {
@@ -191,8 +191,8 @@ public class Game extends JFrame
         
         gameWindow = new JPanel()
         {
-            private long gameTimeAtStart = System.currentTimeMillis();
-            private long gameTimeBuffer = -2000; //Represents time in milliseconds for the system to render graphics
+            private long gameTimeSinceLastLoop = System.currentTimeMillis();
+            private long gameTimer = -1000; //Represents time in milliseconds to wait before beginning game loop
             private boolean gameIsInitialized = false;
             
             public void paint(Graphics gameGraphics)
@@ -204,15 +204,15 @@ public class Game extends JFrame
                 gameGraphics.clearRect(0, 0, gameWidth, gameHeight);
                 
                 long gameTimeCurrent = System.currentTimeMillis();
-                long gameTimeDelta = gameTimeCurrent - gameTimeAtStart;
+                long gameTimeDelta = gameTimeCurrent - gameTimeSinceLastLoop;
                 
-                gameTimeAtStart = gameTimeCurrent;
+                gameTimeSinceLastLoop = gameTimeCurrent;
                 
-                gameTimeBuffer += gameTimeDelta;
+                gameTimer += gameTimeDelta;
 
-                while(gameTimeBuffer >= gameTimeDelay)
+                while(gameTimer >= gameFrameDelay)
                 {
-                    gameTimeBuffer -= gameTimeDelay;
+                    gameTimer -= gameFrameDelay;
                     gameTimePulse();
                 }
                 
