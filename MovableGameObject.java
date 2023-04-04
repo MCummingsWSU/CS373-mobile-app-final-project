@@ -15,12 +15,8 @@ import java.awt.event.KeyListener;
  */
 public class MovableGameObject implements GameObject
 {
-    private Point gameObjectLocation;
+    private Point gameObjectLocation = new Point();
     private double gameObjectWidth, gameObjectHeight, gameObjectSpeed;
-    private double gameObjectRightXCoordinate;
-    private double gameObjectLeftXCoordinate;
-    private double gameObjectTopYCoordinate;
-    private double gameObjectBottomYCoordinate;
     private String gameObjectName;
     private Color gameObjectColor;
     
@@ -35,10 +31,6 @@ public class MovableGameObject implements GameObject
         this.gameObjectWidth = 1;
         this.gameObjectHeight = 1;
         this.gameObjectSpeed = 0;
-        this.gameObjectRightXCoordinate = this.gameObjectLocation.getX() + this.gameObjectWidth / 2;
-        this.gameObjectLeftXCoordinate = this.gameObjectLocation.getX() - this.gameObjectWidth / 2;
-        this.gameObjectTopYCoordinate = this.gameObjectLocation.getY() - this.gameObjectHeight / 2;
-        this.gameObjectBottomYCoordinate = this.gameObjectLocation.getY() + this.gameObjectHeight / 2;
     }
 
     /**
@@ -52,10 +44,6 @@ public class MovableGameObject implements GameObject
         this.gameObjectWidth = width;
         this.gameObjectHeight = height;
         this.gameObjectSpeed = speed;
-        this.gameObjectRightXCoordinate = this.gameObjectLocation.getX() + this.gameObjectWidth / 2;
-        this.gameObjectLeftXCoordinate = this.gameObjectLocation.getX() - this.gameObjectWidth / 2;
-        this.gameObjectTopYCoordinate = this.gameObjectLocation.getY() - this.gameObjectHeight / 2;
-        this.gameObjectBottomYCoordinate = this.gameObjectLocation.getY() + this.gameObjectHeight / 2;
     }
     
     /**
@@ -117,168 +105,7 @@ public class MovableGameObject implements GameObject
     {
         return this.gameObjectLocation.getLocation();
     }
-    
-    /**
-     * Method to manually set a GameObject's rightmost X coordinate based on its location and width
-     * 
-     * @param   location, width
-     */
-    public void setGameObjectRightXCoordinate(Point location, double width)
-    {
-        this.gameObjectRightXCoordinate = location.getX() + width / 2;    
-    }
-    
-    /**
-     * Method to manually set a GameObject's rightmost X coordinate based on an int representing the x-coordinate of the object's location and the object's width
-     * 
-     * @param   location, width
-     */
-    public void setGameObjectRightXCoordinate(int x, double width)
-    {
-        this.gameObjectRightXCoordinate = x + width / 2;    
-    }
-    
-    /**
-     * Method to manually set a GameObject's rightmost X coordinate based on a double representing the x-coordinate of the object's location and the object's width
-     * 
-     * @param   location, width
-     */
-    public void setGameObjectRightXCoordinate(double x, double width)
-    {
-        this.gameObjectRightXCoordinate = x + width / 2;    
-    }
-    
-    /**
-     * Method to return a GameObject's rightmost X coordinate
-     * 
-     * @return  x
-     */
-    public double getGameObjectRightXCoordinate()
-    {
-        return this.gameObjectRightXCoordinate;
-    }
-    
-    /**
-     * Method to manually set a GameObject's leftmost X coordinate based on a Point representing its location and a double representing the object's width
-     * 
-     * @param   location, width
-     */
-    public void setGameObjectLeftXCoordinate(Point location, double width)
-    
-    {
-        this.gameObjectLeftXCoordinate = location.getX() - width / 2;
-    }
-    
-    /**
-     * Method to manually set a GameObject's leftmost X coordinate based on an int x representing the x-coordinate of the GameObject's location, and a double representing the object's width
-     * 
-     * @param   x, width
-     */
-    public void setGameObjectLeftXCoordinate(int x, double width)
-    {
-        this.gameObjectLeftXCoordinate = x - width / 2;
-    }
-    
-    /**
-     * Method to manually set a GameObject's leftmost X coordinate based on a double x representing the x-coordinate of the GameObject's location, and a double representing the object's width
-     * 
-     * @param   x, width
-     */
-    public void setGameObjectLeftXCoordinate(double x, double width)
-    {
-        this.gameObjectLeftXCoordinate = x - width / 2;
-    }
-    
-    /**
-     * Method to return a GameObject's leftmost X coordinate
-     * 
-     * @return  x
-     */
-    public double getGameObjectLeftXCoordinate()
-    {
-        return this.gameObjectLeftXCoordinate;
-    }
-    
-    /**
-     * Method to manually set a GameObject's top Y coordinate using a Point location and a double height
-     * 
-     * @param   location, width
-     */
-    public void setGameObjectTopYCoordinate(Point location, double height)
-    {
-        this.gameObjectTopYCoordinate = location.getY() - height / 2;
-    }
-    
-    /**
-     * Method to manually set a GameObject's top Y coordinate using an int y and a double height
-     * 
-     * @param   y, width
-     */
-    public void setGameObjectTopYCoordinate(int y, double height)
-    {
-        this.gameObjectTopYCoordinate = y - height / 2;
-    }
-    
-    /**
-     * Method to manually set a GameObject's top Y coordinate using a double y and a double height
-     * 
-     * @param y, width
-     */
-    public void setGameObjectTopYCoordinate(double y, double height)
-    {
-        this.gameObjectTopYCoordinate = y - height / 2;
-    }
-    
-    /**
-     * Method to return a GameObject's top Y coordinate
-     * 
-     * @return  y
-     */
-    public double getGameObjectTopYCoordinate()
-    {
-        return this.gameObjectTopYCoordinate;
-    }
-    
-    /**
-     * Method to manually set a GameObject's bottom Y coordinate using a Point location and a double height
-     * 
-     * @param location, height
-     */
-    public void setGameObjectBottomYCoordinate(Point location, double height)
-    {
-        this.gameObjectBottomYCoordinate = location.getY() + height / 2;
-    }
-    
-    /**
-     * Method to manually set a GameObject's bottom Y coordinate using an int y and a double height
-     * 
-     * @param y, height
-     */
-    public void setGameObjectBottomYCoordinate(int y, double height)
-    {
-        this.gameObjectBottomYCoordinate = y + height / 2;
-    }
-    
-    /**
-     * Method to manually set a GameObject's bottom Y coordinate using a double y and a double height
-     * 
-     * @param y, height
-     */
-    public void setGameObjectBottomYCoordinate(double y, double height)
-    {
-        this.gameObjectBottomYCoordinate = y + height / 2;
-    }
-    
-    /**
-     * Method to get a GameObject's bottom Y coordinate
-     * 
-     * @return y
-     */
-    public double getGameObjectBottomYCoordinate()
-    {
-        return this.gameObjectBottomYCoordinate;
-    }
-    
+
     /**
      * Method to manually set a GameObject's name
      * 

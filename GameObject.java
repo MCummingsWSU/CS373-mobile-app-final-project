@@ -73,95 +73,15 @@ public interface GameObject
      * 
      */
     public double getGameObjectHeight();
-    
-    /**
-     * 
-     */
-    public void setGameObjectRightXCoordinate(Point location, double width);
-    
-    /**
-     * 
-     */
-    public void setGameObjectRightXCoordinate(double x, double width);
-    
-    /**
-     * 
-     */
-    public void setGameObjectRightXCoordinate(int x, double width);
-    
-    /**
-     * 
-     */
-    public double getGameObjectRightXCoordinate();
-    
-    /**
-     * 
-     */
-    public void setGameObjectLeftXCoordinate(Point location, double width);
-    
-    /**
-     * 
-     */
-    public void setGameObjectLeftXCoordinate(double x, double width);
-    
-    /**
-     * 
-     */
-    public void setGameObjectLeftXCoordinate(int x, double width);
-    
-    /**
-     * 
-     */
-    public double getGameObjectLeftXCoordinate();
-    
-    /**
-     * 
-     */
-    public void setGameObjectTopYCoordinate(Point location, double height);
-    
-    /**
-     * 
-     */
-    public void setGameObjectTopYCoordinate(double y, double height);
-    
-    /**
-     * 
-     */
-    public void setGameObjectTopYCoordinate(int y, double height);
-    
-    /**
-     * 
-     */
-    public double getGameObjectTopYCoordinate();
-    
-    /**
-     * 
-     */
-    public void setGameObjectBottomYCoordinate(Point location, double height);
-    
-    /**
-     * 
-     */
-    public void setGameObjectBottomYCoordinate(double y, double height);
-    
-    /**
-     * 
-     */
-    public void setGameObjectBottomYCoordinate(int y, double height);
-    
-    /**
-     * 
-     */
-    public double getGameObjectBottomYCoordinate();
-    
+
     /**
      * 
      */
     public static boolean collision(GameObject a, GameObject b)
-    {
-    return a.getGameObjectLeftXCoordinate() < b.getGameObjectRightXCoordinate() &&
-            a.getGameObjectRightXCoordinate() > b.getGameObjectLeftXCoordinate() &&
-            a.getGameObjectTopYCoordinate() > b.getGameObjectBottomYCoordinate() &&
-            a.getGameObjectBottomYCoordinate() < b.getGameObjectTopYCoordinate();
+    {   
+        return a.getGameObjectLocation().getX() + a.getGameObjectWidth() > b.getGameObjectLocation().getX() &&
+                a.getGameObjectLocation().getY() + a.getGameObjectHeight() > b.getGameObjectLocation().getY() &&
+                a.getGameObjectLocation().getX() < b.getGameObjectLocation().getX() + b.getGameObjectWidth() &&
+                a.getGameObjectLocation().getY() < b.getGameObjectLocation().getY() + b.getGameObjectHeight();
     };
 }

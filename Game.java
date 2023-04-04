@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -21,14 +20,14 @@ public class Game extends JFrame
     private boolean gameOver;
     private JPanel gameWindow;
     private KeyListener gameInput;
-    public static final int gameWidth = 480;
-    public static final int gameHeight = 854;//9:16 480p aspect ratio
+    public static int gameWidth = 480;
+    public static int gameHeight = 854;//9:16 480p aspect ratio
     public String gameTitle = "WorkingTitle";
     private boolean[] keyboard;
     private ArrayList<MovableGameObject> gameWorldObjects;
     private Player gamePlayerCharacter;
     private int gamePlayerCharacterStartXCoordinate = gameWidth / 2;
-    private int gamePlayerCharacterStartYCoordinate = gameHeight - 16;
+    private int gamePlayerCharacterStartYCoordinate = gameHeight - 64;
     private long gamePointsScore;
     private long gamePointsHighScore = 0;
     //private int gameTimeCounter; Used for adjusting difficulty, can come back to this later
@@ -37,11 +36,11 @@ public class Game extends JFrame
     
     /**
      * Method to instantiate an Obstacle MovableGameObject
-     * Intended to make Obstacles appear at a random point along the x-axis from 16 to 464, and at a random point from -32 to -886 on the y-axis to give the player time to react as it moves down the screen and up the y-axis
+     * Intended to make Obstacles appear at a random point along the x-axis from 16 to 448, and at a random point from -32 to -886 on the y-axis to give the player time to react as it moves down the screen and up the y-axis
      */
     public Obstacle createMovableGameObjectObstacle()
     {
-        return new Obstacle((int)(gameRandomSeed.nextDouble() * (gameWidth + 16)) - 32, (int)(gameRandomSeed.nextDouble() * -gameHeight - 32));
+        return new Obstacle((int)(gameRandomSeed.nextDouble() * gameWidth - 32), (int)(gameRandomSeed.nextDouble() * -gameHeight - 32));
     }
     
     /**
@@ -61,26 +60,11 @@ public class Game extends JFrame
         gameOver = false;
         
         keyboard = new boolean[KeyEvent.KEY_LAST]; 
-        gameInput = new KeyListener()
-        {
-            public void keyTyped(KeyEvent key)
-            {
-            }
-            public void keyPressed(KeyEvent key)
-            {
-                keyboard[key.getKeyCode()] = true;
-            }
-            public void keyReleased(KeyEvent key)
-            {
-                keyboard[key.getKeyCode()] = false;
-            }
-        };
-        
         gamePlayerCharacter = createMovableGameObjectPlayer(); //Values subject to change once I see how the game looks on a phone screen
         gamePointsScore = 0;
+        gameTimeDelay = 10;
         gameRandomSeed = new Random();
         gameWorldObjects = new ArrayList<>();
-        
         
         for (int i = 0; i < 10; i++) //maybe create method later to produce a value for i to count up to for more Obstacles to appear at once as the player keeps winning the game? Function of game time and/or points
         {
@@ -111,7 +95,7 @@ public class Game extends JFrame
         }
         if(keyboard[KeyEvent.VK_D] || keyboard[KeyEvent.VK_RIGHT])
         {
-            if(gamePlayerCharacter.getGameObjectLocation().getX() + gamePlayerCharacter.getGameObjectWidth() / 2 < gameWidth)
+            if(gamePlayerCharacter.getGameObjectLocation().getX() + gamePlayerCharacter.getGameObjectWidth() + (gamePlayerCharacter.getGameObjectWidth() / 2)  < gameWidth - gamePlayerCharacter.getGameObjectWidth())
             {
                 gamePlayerCharacter.translateMovableGameObject((int)gamePlayerCharacter.getMovableGameObjectSpeed(), 0);
             }
@@ -173,10 +157,16 @@ public class Game extends JFrame
         
         gameGraphics.setFont(new Font("Consolas", Font.PLAIN, 22));
         gameGraphics.setColor(Color.WHITE);
-        gameGraphics.drawString("" + gamePointsScore, gameWidth - gameGraphics.getFontMetrics().stringWidth("" + gamePointsScore) - 8, 22);
+        gameGraphics.drawString("" + gamePointsScore, gameWidth - gameGraphics.getFontMetrics().stringWidth("" + gamePointsScore) - 16, 22);
     
         gameGraphics.setColor(Color.GREEN);
-        gameGraphics.drawString("" + ("HIGH SCORE: " + gamePointsHighScore), gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "HIGH SCORE: " + gamePointsHighScore) - 8, 44);
+        gameGraphics.drawString("" + ("HIGH SCORE: " + gamePointsHighScore), gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "HIGH SCORE: " + gamePointsHighScore) - 16, 44);
+        
+        gameGraphics.setFont(getFont().deriveFont(11));
+        gameGraphics.setColor(Color.WHITE);
+        gameGraphics.drawString("" + "Spacebar to start a new game", gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "Spacebar to start a new game") - 16, 55);
+        gameGraphics.drawString("" + "A / Left Arrow to move left", gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "A / Left Arrow to move left") - 16, 66);
+        gameGraphics.drawString("" + "D / Right Arrow to move right", gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "D / Right Arrow to move right") - 16, 77);
     }
     
     /**
@@ -184,10 +174,25 @@ public class Game extends JFrame
      */
     public void gameGraphicsSetup()
     {
+        gameInput = new KeyListener()
+        {
+            public void keyTyped(KeyEvent key)
+            {
+            }
+            public void keyPressed(KeyEvent key)
+            {
+                keyboard[key.getKeyCode()] = true;
+            }
+            public void keyReleased(KeyEvent key)
+            {
+                keyboard[key.getKeyCode()] = false;
+            }
+        };
+        
         gameWindow = new JPanel()
         {
             private long gameTimeAtStart = System.currentTimeMillis();
-            private long gameTimeBuffer = -2000; //Represents time for the system to render graphics
+            private long gameTimeBuffer = -2000; //Represents time in milliseconds for the system to render graphics
             private boolean gameIsInitialized = false;
             
             public void paint(Graphics gameGraphics)
@@ -199,14 +204,15 @@ public class Game extends JFrame
                 gameGraphics.clearRect(0, 0, gameWidth, gameHeight);
                 
                 long gameTimeCurrent = System.currentTimeMillis();
-                long gameTimeElapsed = gameTimeCurrent - gameTimeAtStart;
+                long gameTimeDelta = gameTimeCurrent - gameTimeAtStart;
                 
                 gameTimeAtStart = gameTimeCurrent;
                 
-                gameTimeBuffer += gameTimeElapsed;
-                
-                while(gameTimeBuffer >= 0)
+                gameTimeBuffer += gameTimeDelta;
+
+                while(gameTimeBuffer >= gameTimeDelay)
                 {
+                    gameTimeBuffer -= gameTimeDelay;
                     gameTimePulse();
                 }
                 
@@ -229,6 +235,7 @@ public class Game extends JFrame
         newGame.setTitle(gameTitle);
         
         gameGraphicsSetup();
+        newGame.addKeyListener(gameInput);
         
         newGame.add(gameWindow);
         newGame.setVisible(true);
