@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Font;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,12 +14,12 @@ import javax.swing.JPanel;
  * A class representing an instance of a mobile game
  *
  * @author Michael Cummings
- * @version 4.3.23
+ * @version 4.4.23
  */
 public class Game extends JFrame
 {
     private boolean gameOver;
-    private JPanel gameGraphics;
+    private JPanel gameWindow;
     private KeyListener gameInput;
     public static final int gameWidth = 480;
     public static final int gameHeight = 854;//9:16 480p aspect ratio
@@ -27,7 +28,7 @@ public class Game extends JFrame
     private ArrayList<MovableGameObject> gameWorldObjects;
     private Player gamePlayerCharacter;
     private int gamePlayerCharacterStartXCoordinate = gameWidth / 2;
-    private int gamePlayerCharacterStartYCoordinate = gameHeight + 16;
+    private int gamePlayerCharacterStartYCoordinate = gameHeight - 16;
     private long gamePointsScore;
     private long gamePointsHighScore = 0;
     //private int gameTimeCounter; Used for adjusting difficulty, can come back to this later
@@ -77,7 +78,7 @@ public class Game extends JFrame
         
         gamePlayerCharacter = createMovableGameObjectPlayer(); //Values subject to change once I see how the game looks on a phone screen
         gamePointsScore = 0;
-        gameRandomSeed = new Random((long)(Math.random() * Long.MAX_VALUE));
+        gameRandomSeed = new Random();
         gameWorldObjects = new ArrayList<>();
         
         
@@ -103,14 +104,14 @@ public class Game extends JFrame
         
         if(keyboard[KeyEvent.VK_A] || keyboard[KeyEvent.VK_LEFT]) //player should be able to move from [8,838] on the x-axis to keep entire Player object in screen space
         {
-            if(gamePlayerCharacter.getGameObjectLocation().getX() - gamePlayerCharacter.getGameObjectLeftXCoordinate() > 0)
+            if(gamePlayerCharacter.getGameObjectLocation().getX() - gamePlayerCharacter.getGameObjectWidth() / 2 > 0)
             {
                 gamePlayerCharacter.translateMovableGameObject((int)gamePlayerCharacter.getMovableGameObjectSpeed() * -1, 0);
             }
         }
         if(keyboard[KeyEvent.VK_D] || keyboard[KeyEvent.VK_RIGHT])
         {
-            if(gamePlayerCharacter.getGameObjectLocation().getX() + gamePlayerCharacter.getGameObjectRightXCoordinate() < gameWidth)
+            if(gamePlayerCharacter.getGameObjectLocation().getX() + gamePlayerCharacter.getGameObjectWidth() / 2 < gameWidth)
             {
                 gamePlayerCharacter.translateMovableGameObject((int)gamePlayerCharacter.getMovableGameObjectSpeed(), 0);
             }
@@ -146,19 +147,96 @@ public class Game extends JFrame
     }
     
     /**
-     * TODO: Graphics rendering method
+     * Method to draw objects after the game's conditions are initialized using Graphics package
      */
+    public void gameGraphicsInitialRender(Graphics gameGraphics)
+    {
+        gameGraphics.setColor(Color.GRAY);
+        gameGraphics.fillRect(0, 0, gameWidth, gameHeight); //Background
+        
+        for(MovableGameObject movableGameObject: gameWorldObjects)
+        {
+            gameGraphics.setColor(movableGameObject.getGameObjectColor());
+            gameGraphics.fillRect((int)movableGameObject.getGameObjectLocation().getX(),
+                                    (int)movableGameObject.getGameObjectLocation().getY(),
+                                    (int)movableGameObject.getGameObjectWidth(),
+                                    (int)movableGameObject.getGameObjectHeight()
+                                    ); 
+        }
+        
+        gameGraphics.setColor(gamePlayerCharacter.getGameObjectColor());
+        gameGraphics.fillRect((int)gamePlayerCharacter.getGameObjectLocation().getX(),
+                                (int)gamePlayerCharacter.getGameObjectLocation().getY(),
+                                (int)gamePlayerCharacter.getGameObjectWidth(),
+                                (int)gamePlayerCharacter.getGameObjectHeight()
+                                );
+        
+        gameGraphics.setFont(new Font("Consolas", Font.PLAIN, 22));
+        gameGraphics.setColor(Color.WHITE);
+        gameGraphics.drawString("" + gamePointsScore, gameWidth - gameGraphics.getFontMetrics().stringWidth("" + gamePointsScore) - 8, 22);
+    
+        gameGraphics.setColor(Color.GREEN);
+        gameGraphics.drawString("" + ("HIGH SCORE: " + gamePointsHighScore), gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "HIGH SCORE: " + gamePointsHighScore) - 8, 44);
+    }
+    
+    /**
+     * TODO: Setup method
+     */
+    public void gameGraphicsSetup()
+    {
+        gameWindow = new JPanel()
+        {
+            private long gameTimeAtStart = System.currentTimeMillis();
+            private long gameTimeBuffer = -2000; //Represents time for the system to render graphics
+            private boolean gameIsInitialized = false;
+            
+            public void paint(Graphics gameGraphics)
+            {
+                if(!gameIsInitialized)
+                    gameInitialize();
+                gameIsInitialized = true;
+                
+                gameGraphics.clearRect(0, 0, gameWidth, gameHeight);
+                
+                long gameTimeCurrent = System.currentTimeMillis();
+                long gameTimeElapsed = gameTimeCurrent - gameTimeAtStart;
+                
+                gameTimeAtStart = gameTimeCurrent;
+                
+                gameTimeBuffer += gameTimeElapsed;
+                
+                while(gameTimeBuffer >= 0)
+                {
+                    gameTimePulse();
+                }
+                
+                gameGraphicsInitialRender(gameGraphics);
+                repaint();
+            }
+        };
+    }
 
     /**
      * Constructor for objects of class Game
      */
     public Game()
     {
-        Game newGame = new Game();
+        newGame = this;
         newGame.setVisible(false);
         newGame.setSize(gameWidth, gameHeight);
+        newGame.setResizable(false);
+        newGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        newGame.setTitle(gameTitle);
         
-        //TODO: Create setup method to initialize KeyListener, Graphics and JFrame, implement GameTimePulse
-        //Create driver / main method
+        gameGraphicsSetup();
+        
+        newGame.add(gameWindow);
+        newGame.setVisible(true);
+    }
+    
+    public static Game newGame;
+    public static void main(String[] args)
+    {
+        new Game();
     }
 }

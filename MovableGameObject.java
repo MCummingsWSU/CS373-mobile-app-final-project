@@ -17,10 +17,10 @@ public class MovableGameObject implements GameObject
 {
     private Point gameObjectLocation;
     private double gameObjectWidth, gameObjectHeight, gameObjectSpeed;
-    private double gameObjectRightXCoordinate = this.gameObjectLocation.getX() + this.gameObjectWidth / 2;
-    private double gameObjectLeftXCoordinate = this.gameObjectLocation.getX() - this.gameObjectWidth / 2;
-    private double gameObjectTopYCoordinate = this.gameObjectLocation.getY() - this.gameObjectHeight / 2;
-    private double gameObjectBottomYCoordinate = this.gameObjectLocation.getY() + this.gameObjectHeight / 2;
+    private double gameObjectRightXCoordinate;
+    private double gameObjectLeftXCoordinate;
+    private double gameObjectTopYCoordinate;
+    private double gameObjectBottomYCoordinate;
     private String gameObjectName;
     private Color gameObjectColor;
     
