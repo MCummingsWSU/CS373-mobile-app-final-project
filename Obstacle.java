@@ -26,6 +26,7 @@ public class Obstacle extends MovableGameObject
         this.setGameObjectWidth(obstacleWidth);
         this.setGameObjectHeight(obstacleHeight);
         this.setMovableGameObjectSpeed(obstacleSpeed);
+        this.setGameObjectNoCollide(false);
     }
     
     /**
@@ -39,5 +40,6 @@ public class Obstacle extends MovableGameObject
         this.setGameObjectWidth(obstacleWidth);
         this.setGameObjectHeight(obstacleHeight);
         this.setMovableGameObjectSpeed(obstacleSpeed);
+        this.setGameObjectNoCollide(false);
     }
 }

@@ -14,6 +14,7 @@ public class MovableGameObject implements GameObject
     private double gameObjectWidth, gameObjectHeight, gameObjectSpeed;
     private String gameObjectName;
     private Color gameObjectColor;
+    private boolean gameObjectNoCollide;
     
     /**
      * Default constructor for MovableGameObject
@@ -26,12 +27,13 @@ public class MovableGameObject implements GameObject
         this.gameObjectWidth = 1;
         this.gameObjectHeight = 1;
         this.gameObjectSpeed = 0;
+        this.gameObjectNoCollide = false;
     }
 
     /**
      * Overloaded constructor for objects of class MovableGameObject
      */
-    public MovableGameObject(Color color, int locationX, int locationY, String name, double width, double height, double speed)
+    public MovableGameObject(Color color, int locationX, int locationY, String name, double width, double height, double speed, boolean noCollide)
     {
         this.gameObjectName = name;
         this.gameObjectColor = color;
@@ -39,6 +41,7 @@ public class MovableGameObject implements GameObject
         this.gameObjectWidth = width;
         this.gameObjectHeight = height;
         this.gameObjectSpeed = speed;
+        this.gameObjectNoCollide = noCollide;
     }
     
     /**
@@ -167,6 +170,26 @@ public class MovableGameObject implements GameObject
     public Rectangle getGameObjectBounds()
     {
         return new Rectangle((int)this.gameObjectLocation.getX(), (int)this.gameObjectLocation.getY(), (int)this.gameObjectWidth, (int)this.gameObjectHeight);
+    }
+    
+    /**
+     * Method to set a boolean indicating whether a GameObject should not collide with other GameObjects
+     * 
+     * @param   noCollide
+     */
+    public void setGameObjectNoCollide(boolean noCollide)
+    {
+        this.gameObjectNoCollide = noCollide;
+    }
+    
+    /**
+     * Method to return true if a GameObject should not collide with otehr GameObjects
+     * 
+     * @return  noCollide
+     */
+    public boolean getGameObjectNoCollide()
+    {
+        return this.gameObjectNoCollide;
     }
     
     /**

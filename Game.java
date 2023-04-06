@@ -28,7 +28,7 @@ public class Game extends JFrame
     private Player gamePlayerCharacter;
     private int gamePlayerCharacterStartXCoordinate = gameWidth / 2;
     private int gamePlayerCharacterStartYCoordinate = gameHeight - 64;
-    //private int gamePlayerCharacterContinuesRemaining; Represents number of collisions player has left before gameOver state evaluates true
+    private int gamePlayerCharacterContinuesRemaining; //Represents number of collisions player has left before gameOver state evaluates true
     private long gamePointsScore;
     private long gamePointsHighScore = 0;
     //private int gameTimeCounter; Used for adjusting difficulty, can come back to this later
@@ -64,6 +64,7 @@ public class Game extends JFrame
         
         keyboard = new boolean[KeyEvent.KEY_LAST]; 
         gamePlayerCharacter = createMovableGameObjectPlayer(); //Values subject to change once I see how the game looks on a phone screen
+        gamePlayerCharacterContinuesRemaining = 3;
         gamePointsScore = 0;
         gameRandomSeed = new Random();
         gameWorldObjects = new ArrayList<>();
@@ -126,8 +127,16 @@ public class Game extends JFrame
             {
                 if(GameObject.collision(gamePlayerCharacter, movableGameObject))
                 {
-                    gameOver = true;
+                    if(gamePlayerCharacterContinuesRemaining > 1)
+                    {
+                        gamePlayerCharacterContinuesRemaining--;
+                        movableGameObject.setGameObjectNoCollide(true);
+                        gamePlayerCharacter.setGameObjectNoCollide(true);
+                    }
+                    else{
+                    gameOver = true;}
                 }
+                gamePlayerCharacter.setGameObjectNoCollide(false);
             }
         }
     }
@@ -160,6 +169,7 @@ public class Game extends JFrame
         gameGraphics.setFont(new Font("Consolas", Font.PLAIN, 22));
         gameGraphics.setColor(Color.WHITE);
         gameGraphics.drawString("" + gamePointsScore, gameWidth - gameGraphics.getFontMetrics().stringWidth("" + gamePointsScore) - 16, 22);
+        gameGraphics.drawString("" + ("LIVES: " + (gamePlayerCharacterContinuesRemaining - 1)), 8, 22);
     
         gameGraphics.setColor(Color.GREEN);
         gameGraphics.drawString("" + ("HIGH SCORE: " + gamePointsHighScore), gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "HIGH SCORE: " + gamePointsHighScore) - 16, 44);

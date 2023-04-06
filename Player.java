@@ -26,6 +26,7 @@ public class Player extends MovableGameObject
         this.setGameObjectHeight(playerHeight);
         this.setGameObjectLocation(0, 0);
         this.setMovableGameObjectSpeed(playerSpeed);
+        this.setGameObjectNoCollide(false);
     }
     
     /**
@@ -39,5 +40,6 @@ public class Player extends MovableGameObject
         this.setGameObjectHeight(playerHeight);
         this.setGameObjectLocation(x, y);
         this.setMovableGameObjectSpeed(playerSpeed);
+        this.setGameObjectNoCollide(false);
     }
 }

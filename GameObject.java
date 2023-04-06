@@ -106,6 +106,24 @@ public interface GameObject
      */
     public static boolean collision(GameObject a, GameObject b)
     {   
-        return a.getGameObjectBounds().intersects(b.getGameObjectBounds());
+        if(!a.getGameObjectNoCollide() && !b.getGameObjectNoCollide())
+        {
+            return a.getGameObjectBounds().intersects(b.getGameObjectBounds());
+        }
+        return false;
     };
+    
+    /**
+     * Method to set a boolean indicating whether a GameObject should not collide with other GameObjects
+     * 
+     * @param   noCollide
+     */
+    public void setGameObjectNoCollide(boolean noCollide);
+    
+    /**
+     * Method to return true if a GameObject should be not be able to collide with other game objects
+     * 
+     * @return  noCollide
+     */
+    public boolean getGameObjectNoCollide();
 }
