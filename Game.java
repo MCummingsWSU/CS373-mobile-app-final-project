@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  * A class representing an instance of a mobile game
  *
  * @author Michael Cummings
- * @version 4.4.23
+ * @version 4.6.23
  */
 public class Game extends JFrame
 {
@@ -28,10 +28,13 @@ public class Game extends JFrame
     private Player gamePlayerCharacter;
     private int gamePlayerCharacterStartXCoordinate = gameWidth / 2;
     private int gamePlayerCharacterStartYCoordinate = gameHeight - 64;
+    //private int gamePlayerCharacterContinuesRemaining; Represents number of collisions player has left before gameOver state evaluates true
     private long gamePointsScore;
     private long gamePointsHighScore = 0;
     //private int gameTimeCounter; Used for adjusting difficulty, can come back to this later
-    private long gameFrameDelay;
+    //private int gameDifficultyLevel; 
+    private int gameFramesPerSecondTarget = 120;
+    private long gameFrameDrawTime = 1000 / gameFramesPerSecondTarget;  //1000 ms / 120 fps ~= 1 frame / 8.33 ms
     private Random gameRandomSeed; //Will hold a random value generated at initialization that will be used to decide the coordinates to place Obstacles
     
     /**
@@ -40,7 +43,7 @@ public class Game extends JFrame
      */
     public Obstacle createMovableGameObjectObstacle()
     {
-        return new Obstacle((int)(gameRandomSeed.nextDouble() * gameWidth - 32), (int)(gameRandomSeed.nextDouble() * -gameHeight - 32));
+        return new Obstacle((int)(gameRandomSeed.nextDouble() * (gameWidth - 48) + 16), (int)(gameRandomSeed.nextDouble() * -gameHeight - 32));
     }
     
     /**
@@ -62,7 +65,6 @@ public class Game extends JFrame
         keyboard = new boolean[KeyEvent.KEY_LAST]; 
         gamePlayerCharacter = createMovableGameObjectPlayer(); //Values subject to change once I see how the game looks on a phone screen
         gamePointsScore = 0;
-        gameFrameDelay = 10;
         gameRandomSeed = new Random();
         gameWorldObjects = new ArrayList<>();
         
@@ -86,7 +88,7 @@ public class Game extends JFrame
             return;
         }
         
-        if(keyboard[KeyEvent.VK_A] || keyboard[KeyEvent.VK_LEFT]) //player should be able to move from [8,838] on the x-axis to keep entire Player object in screen space
+        if(keyboard[KeyEvent.VK_A] || keyboard[KeyEvent.VK_LEFT]) //player should be able to move from [8,448] on the x-axis to keep entire Player object in screen space
         {
             if(gamePlayerCharacter.getGameObjectLocation().getX() - gamePlayerCharacter.getGameObjectWidth() / 2 > 0)
             {
@@ -167,10 +169,17 @@ public class Game extends JFrame
         gameGraphics.drawString("" + "Spacebar to start a new game", gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "Spacebar to start a new game") - 16, 55);
         gameGraphics.drawString("" + "A / Left Arrow to move left", gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "A / Left Arrow to move left") - 16, 66);
         gameGraphics.drawString("" + "D / Right Arrow to move right", gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "D / Right Arrow to move right") - 16, 77);
+        
+        if(gameOver)
+        {
+            gameGraphics.setFont(getFont().deriveFont(88.0f));
+            gameGraphics.drawString("" + "GAME", gameWidth / 2 - gameWidth / 4, gameHeight / 2);
+            gameGraphics.drawString("" + "OVER", gameWidth / 2 - gameWidth / 4, gameHeight / 2 + 88);
+        }
     }
     
     /**
-     * TODO: Write comments!
+     * Method to render the JPanel to the screen and animate it
      */
     public void gameGraphicsSetup()
     {
@@ -192,7 +201,7 @@ public class Game extends JFrame
         gameWindow = new JPanel()
         {
             private long gameTimeSinceLastLoop = System.currentTimeMillis();
-            private long gameTimer = -1000; //Represents time in milliseconds to wait before beginning game loop
+            private long gameTimer = -1000; //-1000 Represents time in milliseconds to wait before beginning game loop
             private boolean gameIsInitialized = false;
             
             public void paint(Graphics gameGraphics)
@@ -210,9 +219,9 @@ public class Game extends JFrame
                 
                 gameTimer += gameTimeDelta;
 
-                while(gameTimer >= gameFrameDelay)
+                while(gameTimer >= gameFrameDrawTime)
                 {
-                    gameTimer -= gameFrameDelay;
+                    gameTimer -= gameFrameDrawTime;
                     gameTimePulse();
                 }
                 
@@ -223,7 +232,7 @@ public class Game extends JFrame
     }
 
     /**
-     * Constructor for objects of class Game
+     * Default constructor for objects of class Game
      */
     public Game()
     {

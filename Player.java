@@ -1,10 +1,5 @@
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Random;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 /**
  * A class representing the character the player controls in the game
@@ -21,7 +16,7 @@ public class Player extends MovableGameObject
     int playerSpeed = 4;
     
     /**
-     * Constructor for objects of class Player
+     * Default constructor for objects of class Player
      */
     public Player()
     {
@@ -34,7 +29,7 @@ public class Player extends MovableGameObject
     }
     
     /**
-     * Constructor for objects of class Player
+     * Overloaded constructor for objects of class Player
      */
     public Player(int x, int y)
     {

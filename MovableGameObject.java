@@ -1,11 +1,5 @@
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Random;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 
 /**
  * A parent class for entities within a video game (player and non-player characters, collectable items, barriers, etc.)
@@ -21,7 +15,7 @@ public class MovableGameObject implements GameObject
     private Color gameObjectColor;
     
     /**
-     * 
+     * Default constructor for MovableGameObject
      */
     public MovableGameObject()
     {
@@ -34,7 +28,7 @@ public class MovableGameObject implements GameObject
     }
 
     /**
-     * Constructor for objects of class MovableGameObject
+     * Overloaded constructor for objects of class MovableGameObject
      */
     public MovableGameObject(Color color, int locationX, int locationY, String name, double width, double height, double speed)
     {
