@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 /**
  * A parent class for entities within a video game (player and non-player characters, collectable items, barriers, etc.)
@@ -158,6 +159,14 @@ public class MovableGameObject implements GameObject
     public double getGameObjectHeight()
     {
         return this.gameObjectHeight;
+    }
+    
+    /**
+     * Method to return a Rectangle with dimensions equal to the coordinate boundaries of the GameObject
+     */
+    public Rectangle getGameObjectBounds()
+    {
+        return new Rectangle((int)this.gameObjectLocation.getX(), (int)this.gameObjectLocation.getY(), (int)this.gameObjectWidth, (int)this.gameObjectHeight);
     }
     
     /**

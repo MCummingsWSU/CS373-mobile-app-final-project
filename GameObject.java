@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 /**
  * An interface containing methods for GameObjects. GameObject will be implemented in a MovableGameObject class, which will in turn be used to create subclasses for the player character and the obstacles in the game
@@ -92,6 +93,11 @@ public interface GameObject
      * @return height
      */
     public double getGameObjectHeight();
+    
+    /**
+     * Method to return a Rectangle whose dimensions are equal to the boundaries of the GameObject
+     */
+    public Rectangle getGameObjectBounds();
 
     /**
      * Method to return true if two GameObjects intersect at any point
@@ -100,9 +106,6 @@ public interface GameObject
      */
     public static boolean collision(GameObject a, GameObject b)
     {   
-        return a.getGameObjectLocation().getX() + a.getGameObjectWidth() > b.getGameObjectLocation().getX() &&
-                a.getGameObjectLocation().getY() + a.getGameObjectHeight() > b.getGameObjectLocation().getY() &&
-                a.getGameObjectLocation().getX() < b.getGameObjectLocation().getX() + b.getGameObjectWidth() &&
-                a.getGameObjectLocation().getY() < b.getGameObjectLocation().getY() + b.getGameObjectHeight();
+        return a.getGameObjectBounds().intersects(b.getGameObjectBounds());
     };
 }
