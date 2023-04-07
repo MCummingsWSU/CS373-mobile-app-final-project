@@ -31,15 +31,35 @@ public class Game extends JFrame
     private int gamePlayerCharacterContinuesRemaining; //Represents number of collisions player has left before gameOver state evaluates true
     private long gamePointsScore;
     private long gamePointsHighScore = 0;
-    //private int gameTimeCounter; Used for adjusting difficulty, can come back to this later
-    //private int gameDifficultyLevel; 
+    private int gamePointsCounter;
+    private int gameDifficultyLevel; 
     private int gameFramesPerSecondTarget = 120;
     private long gameFrameDrawTime = 1000 / gameFramesPerSecondTarget;  //1000 ms / 120 fps ~= 1 frame / 8.33 ms
     private Random gameRandomSeed; //Will hold a random value generated at initialization that will be used to decide the coordinates to place Obstacles
     
     /**
+     * Method to call one of the createMovableGameObject() methods, depending on a random number and gameDifficultyLevel
+     */
+    public Obstacle gameObjectObstacleSpawner()
+    {
+        int gameRandomNumber = (int)(gameRandomSeed.nextDouble() * 10) + 1;
+        
+        if(gameRandomNumber + gameDifficultyLevel >= 13 && gameRandomNumber + gameDifficultyLevel <= 15)
+        {
+            return createMovableGameObjectObstacleFast();
+        }
+        if((gameRandomNumber + gameDifficultyLevel == 16))
+        {
+            return createMovableGameObjectObstacleLarge();
+        }
+        return createMovableGameObjectObstacle();
+    }
+    
+    /**
      * Method to instantiate an Obstacle MovableGameObject
      * Intended to make Obstacles appear at a random point along the x-axis from 16 to 448, and at a random point from -32 to -886 on the y-axis to give the player time to react as it moves down the screen and up the y-axis
+     * 
+     * @return Obstacle
      */
     public Obstacle createMovableGameObjectObstacle()
     {
@@ -47,8 +67,29 @@ public class Game extends JFrame
     }
     
     /**
+     * Method to instantiate an ObstacleLarge MovableGameObject
+     * 
+     * @return  ObstacleLarge
+     */
+    public ObstacleLarge createMovableGameObjectObstacleLarge()
+    {
+        return new ObstacleLarge((int)(gameRandomSeed.nextDouble() * (gameWidth - 64) + 32), (int)(gameRandomSeed.nextDouble() * -gameHeight - 64));
+    }
+    
+    /**
+     * Method to instantiate an ObstacleFast MovableGameObject
+     * 
+     * @return  ObstacleFast
+     */
+    public ObstacleFast createMovableGameObjectObstacleFast()
+    {
+        return new ObstacleFast((int)(gameRandomSeed.nextDouble() * (gameWidth - 48) + 16), (int)(gameRandomSeed.nextDouble() * -gameHeight - 32));
+    }
+    
+    /**
      * Method to instantiate a Player MovableGameObject
-     * @param x, y
+     * 
+     * @return  Player
      */
     public Player createMovableGameObjectPlayer()
     {
@@ -64,14 +105,16 @@ public class Game extends JFrame
         
         keyboard = new boolean[KeyEvent.KEY_LAST]; 
         gamePlayerCharacter = createMovableGameObjectPlayer(); //Values subject to change once I see how the game looks on a phone screen
-        gamePlayerCharacterContinuesRemaining = 3;
+        gamePlayerCharacterContinuesRemaining = 2;
         gamePointsScore = 0;
+        gamePointsCounter = 0;
+        gameDifficultyLevel = 0;
         gameRandomSeed = new Random();
         gameWorldObjects = new ArrayList<>();
         
         for (int i = 0; i < 10; i++) //maybe create method later to produce a value for i to count up to for more Obstacles to appear at once as the player keeps winning the game? Function of game time and/or points
         {
-            gameWorldObjects.add(createMovableGameObjectObstacle()); //Have only created one type of Obstacle for now, maybe rewrite to call a dedicated MovableObject spawner method that can add different types of Obstacles (regular, large, fast, etc.)
+            gameWorldObjects.add(gameObjectObstacleSpawner()); //Have only created one type of Obstacle for now, maybe rewrite to call a dedicated MovableObject spawner method that can add different types of Obstacles (regular, large, fast, etc.)
         }
     }
     
@@ -116,27 +159,43 @@ public class Game extends JFrame
             if(movableGameObject.getGameObjectLocation().getY() - movableGameObject.getGameObjectHeight() > gameHeight)
             {
                 gamePointsScore += 100;
+                gamePointsCounter += 100;
+                if((int)gamePointsCounter / 5000 > 0)
+                {
+                    if(gameDifficultyLevel < 10)
+                    {
+                        gameDifficultyLevel++;
+                    }
+                    gamePointsCounter = 0;
+                }
                 if(gamePointsScore > gamePointsHighScore)
                 {
                     gamePointsHighScore = gamePointsScore;
                 }
                 gameWorldObjects.remove(movableGameObject);
-                gameWorldObjects.add(createMovableGameObjectObstacle());
+                gameWorldObjects.add(gameObjectObstacleSpawner());
+                for(int i = 1; i < gameDifficultyLevel; i++)
+                {
+                    if((int)(gameRandomSeed.nextDouble() * 100) == 1)
+                    {
+                        gameWorldObjects.add(gameObjectObstacleSpawner());
+                    }
+                    
+                }
             }
             else
             {
                 if(GameObject.collision(gamePlayerCharacter, movableGameObject))
                 {
-                    if(gamePlayerCharacterContinuesRemaining > 1)
+                    if(gamePlayerCharacterContinuesRemaining > 0)
                     {
                         gamePlayerCharacterContinuesRemaining--;
-                        movableGameObject.setGameObjectNoCollide(true);
-                        gamePlayerCharacter.setGameObjectNoCollide(true);
+                        gameDifficultyLevel -= 3;
+                        gameWorldObjects.remove(movableGameObject);
                     }
                     else{
                     gameOver = true;}
                 }
-                gamePlayerCharacter.setGameObjectNoCollide(false);
             }
         }
     }
@@ -169,7 +228,8 @@ public class Game extends JFrame
         gameGraphics.setFont(new Font("Consolas", Font.PLAIN, 22));
         gameGraphics.setColor(Color.WHITE);
         gameGraphics.drawString("" + gamePointsScore, gameWidth - gameGraphics.getFontMetrics().stringWidth("" + gamePointsScore) - 16, 22);
-        gameGraphics.drawString("" + ("LIVES: " + (gamePlayerCharacterContinuesRemaining - 1)), 8, 22);
+        gameGraphics.drawString("" + ("LIVES: " + gamePlayerCharacterContinuesRemaining), 8, 22);
+        gameGraphics.drawString("" + ("DIFFICULTY: " + gameDifficultyLevel), 8, 44);
     
         gameGraphics.setColor(Color.GREEN);
         gameGraphics.drawString("" + ("HIGH SCORE: " + gamePointsHighScore), gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "HIGH SCORE: " + gamePointsHighScore) - 16, 44);

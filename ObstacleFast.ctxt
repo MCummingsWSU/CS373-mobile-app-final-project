@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=ObstacleFast
+comment0.text=\r\n\ A\ class\ representing\ an\ obstacle\ that\ can\ collide\ with\ the\ player\ that\ appears\ at\ the\ top\ of\ the\ game\ screen\r\n\r\n\ @author\ Michael\ Cummings\r\n\ @version\ 4.3.23\r\n
+comment1.params=
+comment1.target=ObstacleFast()
+comment1.text=\r\n\ Default\ constructor\ for\ objects\ of\ class\ ObstacleFast\r\n
+comment2.params=x\ y
+comment2.target=ObstacleFast(int,\ int)
+comment2.text=\r\n\ Overloaded\ constructor\ for\ objects\ of\ class\ ObstacleFast\r\n
+numComments=3
