@@ -42,13 +42,15 @@ public class Game extends JFrame
      */
     public Obstacle gameObjectObstacleSpawner()
     {
-        int gameRandomNumber = (int)(gameRandomSeed.nextDouble() * 10) + 1;
+        double gameRandomDouble = gameRandomSeed.nextDouble();
+        int gameRandomInt = (int)Math.round(gameRandomDouble * 10) + 1;
         
-        if(gameRandomNumber + gameDifficultyLevel >= 13 && gameRandomNumber + gameDifficultyLevel <= 15)
+        
+        if(gameRandomInt + gameDifficultyLevel >= 13 && gameRandomInt + gameDifficultyLevel <= 15)
         {
             return createMovableGameObjectObstacleFast();
         }
-        if((gameRandomNumber + gameDifficultyLevel == 16))
+        if((gameRandomInt + gameDifficultyLevel == 16))
         {
             return createMovableGameObjectObstacleLarge();
         }
@@ -112,9 +114,9 @@ public class Game extends JFrame
         gameRandomSeed = new Random();
         gameWorldObjects = new ArrayList<>();
         
-        for (int i = 0; i < 10; i++) //maybe create method later to produce a value for i to count up to for more Obstacles to appear at once as the player keeps winning the game? Function of game time and/or points
+        for (int i = 0; i < 10; i++)
         {
-            gameWorldObjects.add(gameObjectObstacleSpawner()); //Have only created one type of Obstacle for now, maybe rewrite to call a dedicated MovableObject spawner method that can add different types of Obstacles (regular, large, fast, etc.)
+            gameWorldObjects.add(gameObjectObstacleSpawner()); 
         }
     }
     
@@ -190,7 +192,15 @@ public class Game extends JFrame
                     if(gamePlayerCharacterContinuesRemaining > 0)
                     {
                         gamePlayerCharacterContinuesRemaining--;
-                        gameDifficultyLevel -= 3;
+                        gamePointsCounter = 0;
+                        if(gameDifficultyLevel - 3 >= 0)
+                        {
+                            gameDifficultyLevel -= 3;
+                        }
+                        else
+                        {
+                            gameDifficultyLevel = 0;
+                        }
                         gameWorldObjects.remove(movableGameObject);
                     }
                     else{
