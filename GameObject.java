@@ -95,6 +95,22 @@ public interface GameObject
     public double getGameObjectHeight();
     
     /**
+     * Method to grow a GameObject's width and height by dw, dh
+     * 
+     * @param   dw, dh
+     */
+    public void growGameObjectSize(double dw, double dh);
+    
+    /**
+     * Method to shrink a GameObject's width and height by dw, dh
+     * 
+     * Calls growGameObjectSize
+     * 
+     * @param   dw, dh
+     */
+    public void shrinkGameObjectSize(double dw, double dh);
+    
+    /**
      * Method to return a Rectangle whose dimensions are equal to the boundaries of the GameObject
      */
     public Rectangle getGameObjectBounds();

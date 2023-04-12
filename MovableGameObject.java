@@ -165,6 +165,29 @@ public class MovableGameObject implements GameObject
     }
     
     /**
+     * Method to grow a GameObject's width and height by dw, dh
+     * 
+     * @param   dw, dh
+     */
+    public void growGameObjectSize(double dw, double dh)
+    {
+        this.gameObjectWidth = this.gameObjectWidth + dw;
+        this.gameObjectHeight = this.gameObjectHeight + dh;
+    }
+    
+    /**
+     * Method to shrink a GameObject's width and height by dw, dh
+     * 
+     * Calls growGameObjectSize
+     * 
+     * @param   dw, dh
+     */
+    public void shrinkGameObjectSize(double dw, double dh)
+    {
+        this.growGameObjectSize(-dw, -dh);
+    }
+    
+    /**
      * Method to return a Rectangle with dimensions equal to the coordinate boundaries of the GameObject
      */
     public Rectangle getGameObjectBounds()
