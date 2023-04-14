@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=BonusItemGold
+comment0.text=\r\n\ Class\ representing\ a\ BonusItemGold\ MovableGameObject\r\n\ \r\n\ Adds\ a\ set\ amount\ to\ Game.gamePointsScore\r\n\r\n\ @author\ Michael\ Cummings\r\n\ @version\ 4.14.23\r\n
+comment1.params=
+comment1.target=BonusItemGold()
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ BonusItemGold\r\n
+comment2.params=x\ y
+comment2.target=BonusItemGold(int,\ int)
+comment2.text=\r\n\ Constructor\ for\ objects\ of\ class\ BonusItemGold\r\n
+comment3.params=points
+comment3.target=void\ setBonusItemPointValue(int)
+comment3.text=\r\n\ Method\ to\ set\ a\ BonusItem's\ point\ value\ to\ grant\ to\ the\ player\ when\ collided\ with\r\n\r\n\ @param\ \ points\r\n
+comment4.params=
+comment4.target=int\ getBonusItemPointValue()
+comment4.text=\r\n\ Method\ to\ get\ a\ BonusItem's\ point\ value\r\n\ \r\n\ @return\ \ points\r\n
+numComments=5

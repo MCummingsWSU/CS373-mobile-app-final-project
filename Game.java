@@ -40,12 +40,15 @@ public class Game extends JFrame
     /**
      * Method to call one of the createMovableGameObject() methods, depending on a random number and gameDifficultyLevel
      */
-    public Obstacle gameObjectObstacleSpawner()
+    public MovableGameObject movableGameObjectObstacleSpawner()
     {
         double gameRandomDouble = gameRandomSeed.nextDouble();
         int gameRandomInt = (int)Math.round(gameRandomDouble * 10) + 1;
         
-        
+        if(gameRandomInt == 1)
+        {
+            return createMovableGameObjectBonusItemGold();
+        }
         if(gameRandomInt + gameDifficultyLevel >= 13 && gameRandomInt + gameDifficultyLevel <= 15)
         {
             return createMovableGameObjectObstacleFast();
@@ -89,6 +92,16 @@ public class Game extends JFrame
     }
     
     /**
+     * Method to instantiate a BonusItem MovableGameObject
+     * 
+     * @return  BonusItem
+     */
+    public BonusItem createMovableGameObjectBonusItemGold()
+    {
+        return new BonusItemGold((int)(gameRandomSeed.nextDouble() * (gameWidth - 48) + 16), (int)(gameRandomSeed.nextDouble() * -gameHeight - 32));
+    }
+    
+    /**
      * Method to instantiate a Player MovableGameObject
      * 
      * @return  Player
@@ -116,7 +129,7 @@ public class Game extends JFrame
         
         for (int i = 0; i < 10; i++)
         {
-            gameWorldObjects.add(gameObjectObstacleSpawner()); 
+            gameWorldObjects.add(movableGameObjectObstacleSpawner()); 
         }
     }
     
@@ -175,36 +188,57 @@ public class Game extends JFrame
                     gamePointsHighScore = gamePointsScore;
                 }
                 gameWorldObjects.remove(movableGameObject);
-                gameWorldObjects.add(gameObjectObstacleSpawner());
+                gameWorldObjects.add(movableGameObjectObstacleSpawner());
                 for(int i = 1; i < gameDifficultyLevel; i++)
                 {
                     if((int)(gameRandomSeed.nextDouble() * 100) == 1)
                     {
-                        gameWorldObjects.add(gameObjectObstacleSpawner());
+                        gameWorldObjects.add(movableGameObjectObstacleSpawner());
                     }
-                    
                 }
             }
             else
             {
                 if(GameObject.collision(gamePlayerCharacter, movableGameObject))
                 {
-                    if(gamePlayerCharacterContinuesRemaining > 0)
+                    if(movableGameObject instanceof BonusItemGold)
                     {
-                        gamePlayerCharacterContinuesRemaining--;
-                        gamePointsCounter = 0;
-                        if(gameDifficultyLevel - 3 >= 0)
-                        {
-                            gameDifficultyLevel -= 3;
-                        }
-                        else
-                        {
-                            gameDifficultyLevel = 0;
-                        }
+                        gamePointsScore += ((BonusItemGold)movableGameObject).getBonusItemPointValue();
+                        gamePointsCounter += ((BonusItemGold)movableGameObject).getBonusItemPointValue();
+                        if((int)gamePointsCounter / 5000 > 0)
+                            {
+                                if(gameDifficultyLevel < 10)
+                                {
+                                    gameDifficultyLevel++;
+                                }
+                                gamePointsCounter = 0;
+                            }
+                        if(gamePointsScore > gamePointsHighScore)
+                            {
+                                gamePointsHighScore = gamePointsScore;
+                            }
                         gameWorldObjects.remove(movableGameObject);
+                        gameWorldObjects.add(movableGameObjectObstacleSpawner());
                     }
-                    else{
-                    gameOver = true;}
+                    else
+                    {
+                        if(gamePlayerCharacterContinuesRemaining > 0)
+                        {
+                            gamePlayerCharacterContinuesRemaining--;
+                            gamePointsCounter = 0;
+                            if(gameDifficultyLevel - 3 >= 0)
+                            {
+                                gameDifficultyLevel -= 3;
+                            }
+                            else
+                            {
+                                gameDifficultyLevel = 0;
+                            }
+                            gameWorldObjects.remove(movableGameObject);
+                        }
+                        else{
+                        gameOver = true;}
+                    }
                 }
             }
         }
