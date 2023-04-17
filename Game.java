@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  * A class representing an instance of a mobile game
  *
  * @author Michael Cummings
- * @version 4.6.23
+ * @version 4.17.23
  */
 public class Game extends JFrame
 {
@@ -173,8 +173,11 @@ public class Game extends JFrame
             movableGameObject.translateMovableGameObject(0, (int)movableGameObject.getMovableGameObjectSpeed());
             if(movableGameObject.getGameObjectLocation().getY() - movableGameObject.getGameObjectHeight() > gameHeight)
             {
-                gamePointsScore += 100;
-                gamePointsCounter += 100;
+                if(!(movableGameObject instanceof BonusItem))
+                {
+                    gamePointsScore += 100;
+                    gamePointsCounter += 100;
+                }
                 if((int)gamePointsCounter / 5000 > 0)
                 {
                     if(gameDifficultyLevel < 10)
@@ -283,6 +286,9 @@ public class Game extends JFrame
         gameGraphics.drawString("" + "Spacebar to start a new game", gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "Spacebar to start a new game") - 16, 55);
         gameGraphics.drawString("" + "A / Left Arrow to move left", gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "A / Left Arrow to move left") - 16, 66);
         gameGraphics.drawString("" + "D / Right Arrow to move right", gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "D / Right Arrow to move right") - 16, 77);
+        gameGraphics.drawString("" + "Avoid RED!", gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "Avoid RED!") - 16, 88);
+        gameGraphics.drawString("" + "Touch GOLD for points!", gameWidth - gameGraphics.getFontMetrics().stringWidth("" + "Touch GOLD for points!") - 16, 99);
+        
         
         if(gameOver)
         {
